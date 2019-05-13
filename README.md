@@ -35,3 +35,4 @@ password is `admin`
 
 * better http check for HAProxy
 * dynamic scaling
+* tests
