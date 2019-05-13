@@ -25,6 +25,12 @@ HAProxy is built with checks, but this is something what need improvements
 Currently passwords are stored in .env file. As it is a test environment, I do
 not see any problem with that.
 
+## URLs
+
+Wordpress site is available here `localhost:8080`  
+HAProxy statistic page is available here `localhost:8082/stats`, user and
+password is `admin`
+
 ## To do
 
 * better http check for HAProxy
