@@ -1,0 +1,79 @@
+version: '3'
+services:
+  mysql:
+    build:
+      context: ./images/mysql/
+      dockerfile: ./Dockerfile
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${VAR_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${VAR_MYSQL_DATABASE}
+      MYSQL_USER: ${VAR_MYSQL_USER}
+      MYSQL_PASSWORD: ${VAR_MYSQL_PASSWORD}
+    volumes:
+      - ./.data/mysql:/var/lib/mysql
+  haproxy:
+    build:
+      context: ./images/haproxy
+      dockerfile: ./Dockerfile
+    links:
+      - wp1
+      - wp2
+      - wp3
+    ports:
+      - "8080:80"
+      - "8082:82"
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+  wp1:
+    build:
+      context: ./images/wp
+      dockerfile: ./Dockerfile
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    restart: always
+    ports:
+      - "0:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: ${VAR_WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${VAR_WORDPRESS_DB_PASSWORD}
+    volumes:
+      - ./.data/wordpress/:/var/www/html/
+  wp2:
+    build:
+      context: ./images/wp
+      dockerfile: ./Dockerfile
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    restart: always
+    ports:
+      - "0:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: ${VAR_WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${VAR_WORDPRESS_DB_PASSWORD}
+    volumes:
+      - ./.data/wordpress/:/var/www/html/
+  wp3:
+    build:
+      context: ./images/wp
+      dockerfile: ./Dockerfile
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    restart: always
+    ports:
+      - "0:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: ${VAR_WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${VAR_WORDPRESS_DB_PASSWORD}
+    volumes:
+      - ./.data/wordpress/:/var/www/html/
