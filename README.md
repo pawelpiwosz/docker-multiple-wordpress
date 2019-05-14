@@ -16,7 +16,7 @@ Right now, the environment contains 3 WP instances without dynamic scaling.
 
 As official WordPress container wasn't work for me very well, I used their
 Dockerfile with my modification in order to achieve possibility of using
-multiple WP containers.
+multiple WP containers. [Link to official repo](https://github.com/docker-library/wordpress).
 
 HAProxy is built with checks, but this is something what need improvements
 
