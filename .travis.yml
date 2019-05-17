@@ -1,0 +1,36 @@
+sudo: required
+dist: trusty
+language: bash
+
+stages:
+  - name: Script tests
+  - name: Containers tests
+
+services:
+  - docker
+
+install:
+  - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
+  - sudo apt-get -qq update
+  - sudo apt-get -t trusty-backports install shellcheck
+  - sudo pip install bashate
+
+jobs:
+  include:
+  - stage: Script tests
+    script:
+      - echo ${TRAVIS_COMMIT}
+      - echo ${TRAVIS_TAG}
+      - echo ${TRAVIS_BRANCH}
+      - echo ${TRAVIS_BUILD_NUMBER}
+      - echo ${TRAVIS_REPO_SLUG}
+      # test bash scripts
+      - shellcheck *.sh
+      - bashate *.sh
+
+  - stage: Containers tests
+    script:
+      - docker-compose -f docker-compose.yml up --build -d
+      - docker ps -a
+      - ./scripts/run-tests.sh
+      -docker-compose -f docker-compose.yml down
