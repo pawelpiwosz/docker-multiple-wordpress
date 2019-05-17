@@ -25,8 +25,8 @@ jobs:
       - echo ${TRAVIS_BUILD_NUMBER}
       - echo ${TRAVIS_REPO_SLUG}
       # test bash scripts
-      - shellcheck *.sh
-      - bashate *.sh
+      - find . -name "*.sh" -exec shellcheck {} \;
+      - find . -name "*.sh" -exec bashate {} \;
 
   - stage: Containers tests
     script:
