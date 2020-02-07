@@ -1,4 +1,4 @@
-FROM php:7.3-apache
+FROM php:7.4-apache
 
 # install the PHP extensions we need
 RUN set -ex; \
@@ -54,12 +54,10 @@ RUN { \
 
 RUN a2enmod rewrite expires
 
-ENV WORDPRESS_VERSION 5.2
-ENV WORDPRESS_SHA1 36459a4621b9e1909c606a98d08625b9e0e25bbc
+ENV WORDPRESS_VERSION latest
 
 RUN set -ex; \
 	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
-	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
 # upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
 	tar -xzf wordpress.tar.gz -C /usr/src/; \
 	rm wordpress.tar.gz; \
