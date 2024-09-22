@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:cli
 
 # install the PHP extensions we need
 RUN set -ex; \
